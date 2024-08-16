@@ -1,7 +1,5 @@
 # UNICHAMADA-BACK-END
 
-# UNICHAMADA-FRONT-# Git Flow
-
 O Git Flow é um modelo de ramificação para o Git que facilita o gerenciamento de versões em projetos de desenvolvimento de software. Ele foi popularizado por Vincent Driessen em 2010 e se tornou uma abordagem amplamente adotada para organizar e gerenciar o trabalho em equipes de desenvolvimento.
 
 ## Estrutura do Git Flow
