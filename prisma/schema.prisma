@@ -1,0 +1,135 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Unidade {
+  id       Int      @id @unique
+  cnpj     String
+  nome     String
+  pessoas  Pessoa[]
+  turmas   Turma[]
+}
+
+model Pessoa {
+  id         Int         @id @unique
+  codigo     String
+  nome       String
+  cpf        String
+  tipoId     Int?
+  unidadeId  Int?
+  usuarioId  Int?
+  tipo       PessoaTipo? @relation(fields: [tipoId], references: [id])
+  unidade    Unidade?    @relation(fields: [unidadeId], references: [id])
+  usuario    Usuario?    @relation(fields: [usuarioId], references: [id])
+  turmas     PessoaTurma[]
+  materias   ProfessorMateriaTurma[]
+  presencas  Presenca[]
+}
+
+model PessoaTipo {
+  id       Int      @id @unique
+  tipo     String?
+  pessoas  Pessoa[]
+}
+
+model Usuario {
+  id      Int      @id @unique
+  email   String
+  senha   String?
+  pessoas Pessoa[]
+}
+
+model Turma {
+  id        Int                  @id @unique
+  nome      String?
+  unidadeId Int?
+  unidade   Unidade?             @relation(fields: [unidadeId], references: [id])
+  pessoas   PessoaTurma[]
+  materias  ProfessorMateriaTurma[]
+  eventos   EventoTurma[]
+}
+
+model PessoaTurma {
+  id        Int      @id @unique
+  pessoaId  Int?
+  turmaId   Int?
+  pessoa    Pessoa?  @relation(fields: [pessoaId], references: [id])
+  turma     Turma?   @relation(fields: [turmaId], references: [id])
+}
+
+model Materia {
+  id       Int                  @id @unique
+  nome     String?
+  professores ProfessorMateriaTurma[]
+  eventos   Evento[]
+}
+
+model ProfessorMateriaTurma {
+  id        Int      @id @unique
+  turmaId   Int?
+  materiaId Int?
+  pessoaId  Int?
+  turma     Turma?   @relation(fields: [turmaId], references: [id])
+  materia   Materia? @relation(fields: [materiaId], references: [id])
+  pessoa    Pessoa?  @relation(fields: [pessoaId], references: [id])
+}
+
+model Evento {
+  id          Int       @id @unique
+  nome        Int
+  tipoId      Int?
+  dataInicio  DateTime?
+  dataFim     DateTime?
+  horaInicio  DateTime?
+  horaFim     DateTime?
+  localId     Int?
+  materiaId   Int?
+  tipo        EventoTipo? @relation(fields: [tipoId], references: [id])
+  local       Localizacao? @relation(fields: [localId], references: [id])
+  materia     Materia? @relation(fields: [materiaId], references: [id])
+  turmas      EventoTurma[]
+  presencas   Presenca[]
+}
+
+model EventoTipo {
+  id       Int      @id @unique
+  tipo     String?
+  eventos  Evento[]
+}
+
+model EventoTurma {
+  id        Int      @id @unique
+  eventoId  Int?
+  turmaId   Int?
+  evento    Evento?  @relation(fields: [eventoId], references: [id])
+  turma     Turma?   @relation(fields: [turmaId], references: [id])
+}
+
+model Localizacao {
+  id        Int      @id @unique
+  latitude  Int?
+  altitude  Int?
+  eventos   Evento[]
+}
+
+model Presenca {
+  id           Int       @id @unique
+  eventoId     Int?
+  pessoaId     Int?
+  dataPresenca DateTime?
+  horaPresenca DateTime?
+  evento       Evento?   @relation(fields: [eventoId], references: [id])
+  pessoa       Pessoa?   @relation(fields: [pessoaId], references: [id])
+}
