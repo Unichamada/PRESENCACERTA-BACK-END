@@ -32,6 +32,28 @@
 $ npm install
 ```
 
+## Run migrations
+```bash
+# development
+$ npx prisma migrate dev
+```
+
+## Database setup
+### Requirements
+- Docker
+
+### Run databse
+```bash
+# pull postgres image, build container, run database & frees the CLI
+$ docker-compose up -d
+```
+
+### Shut down databse
+```bash
+# drop the container
+$ docker-compose down
+```
+
 ## Running the app
 
 ```bash
