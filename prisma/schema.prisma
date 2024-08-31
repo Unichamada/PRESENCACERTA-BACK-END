@@ -9,75 +9,75 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model Unidade {
-  id       Int      @id @unique
-  cnpj     String
-  nome     String
-  pessoas  Pessoa[]
-  turmas   Turma[]
+  id      Int      @id @default(autoincrement())
+  cnpj    String
+  nome    String
+  pessoas Pessoa[]
+  turmas  Turma[]
 }
 
 model Pessoa {
-  id         Int         @id @unique
-  codigo     String
-  nome       String
-  cpf        String
-  tipoId     Int?
-  unidadeId  Int?
-  usuarioId  Int?
-  tipo       PessoaTipo? @relation(fields: [tipoId], references: [id])
-  unidade    Unidade?    @relation(fields: [unidadeId], references: [id])
-  usuario    Usuario?    @relation(fields: [usuarioId], references: [id])
-  turmas     PessoaTurma[]
-  materias   ProfessorMateriaTurma[]
-  presencas  Presenca[]
+  id        Int                     @id @default(autoincrement())
+  codigo    String
+  nome      String
+  cpf       String
+  tipoId    Int?
+  unidadeId Int?
+  usuarioId Int?
+  tipo      PessoaTipo?             @relation(fields: [tipoId], references: [id])
+  unidade   Unidade?                @relation(fields: [unidadeId], references: [id])
+  usuario   Usuario?                @relation(fields: [usuarioId], references: [id])
+  turmas    PessoaTurma[]
+  materias  ProfessorMateriaTurma[]
+  presencas Presenca[]
 }
 
 model PessoaTipo {
-  id       Int      @id @unique
-  tipo     String?
-  pessoas  Pessoa[]
+  id      Int      @id @default(autoincrement())
+  tipo    String?
+  pessoas Pessoa[]
 }
 
 model Usuario {
-  id      Int      @id @unique
-  email   String
+  id      Int      @id @default(autoincrement())
+  email   String   @unique()
   senha   String?
   pessoas Pessoa[]
 }
 
 model Turma {
-  id        Int                  @id @unique
+  id        Int                     @id @default(autoincrement())
   nome      String?
   unidadeId Int?
-  unidade   Unidade?             @relation(fields: [unidadeId], references: [id])
+  unidade   Unidade?                @relation(fields: [unidadeId], references: [id])
   pessoas   PessoaTurma[]
   materias  ProfessorMateriaTurma[]
   eventos   EventoTurma[]
 }
 
 model PessoaTurma {
-  id        Int      @id @unique
-  pessoaId  Int?
-  turmaId   Int?
-  pessoa    Pessoa?  @relation(fields: [pessoaId], references: [id])
-  turma     Turma?   @relation(fields: [turmaId], references: [id])
+  id       Int     @id @default(autoincrement())
+  pessoaId Int?
+  turmaId  Int?
+  pessoa   Pessoa? @relation(fields: [pessoaId], references: [id])
+  turma    Turma?  @relation(fields: [turmaId], references: [id])
 }
 
 model Materia {
-  id       Int                  @id @unique
-  nome     String?
+  id          Int                     @id @default(autoincrement())
+  nome        String?
   professores ProfessorMateriaTurma[]
-  eventos   Evento[]
+  eventos     Evento[]
 }
 
 model ProfessorMateriaTurma {
-  id        Int      @id @unique
+  id        Int      @id @default(autoincrement())
   turmaId   Int?
   materiaId Int?
   pessoaId  Int?
@@ -87,45 +87,45 @@ model ProfessorMateriaTurma {
 }
 
 model Evento {
-  id          Int       @id @unique
-  nome        Int
-  tipoId      Int?
-  dataInicio  DateTime?
-  dataFim     DateTime?
-  horaInicio  DateTime?
-  horaFim     DateTime?
-  localId     Int?
-  materiaId   Int?
-  tipo        EventoTipo? @relation(fields: [tipoId], references: [id])
-  local       Localizacao? @relation(fields: [localId], references: [id])
-  materia     Materia? @relation(fields: [materiaId], references: [id])
-  turmas      EventoTurma[]
-  presencas   Presenca[]
+  id         Int           @id @default(autoincrement())
+  nome       Int
+  tipoId     Int?
+  dataInicio DateTime?
+  dataFim    DateTime?
+  horaInicio DateTime?
+  horaFim    DateTime?
+  localId    Int?
+  materiaId  Int?
+  tipo       EventoTipo?   @relation(fields: [tipoId], references: [id])
+  local      Localizacao?  @relation(fields: [localId], references: [id])
+  materia    Materia?      @relation(fields: [materiaId], references: [id])
+  turmas     EventoTurma[]
+  presencas  Presenca[]
 }
 
 model EventoTipo {
-  id       Int      @id @unique
-  tipo     String?
-  eventos  Evento[]
+  id      Int      @id @default(autoincrement())
+  tipo    String?
+  eventos Evento[]
 }
 
 model EventoTurma {
-  id        Int      @id @unique
-  eventoId  Int?
-  turmaId   Int?
-  evento    Evento?  @relation(fields: [eventoId], references: [id])
-  turma     Turma?   @relation(fields: [turmaId], references: [id])
+  id       Int     @id @default(autoincrement())
+  eventoId Int?
+  turmaId  Int?
+  evento   Evento? @relation(fields: [eventoId], references: [id])
+  turma    Turma?  @relation(fields: [turmaId], references: [id])
 }
 
 model Localizacao {
-  id        Int      @id @unique
-  latitude  Int?
-  altitude  Int?
-  eventos   Evento[]
+  id       Int      @id @default(autoincrement())
+  latitude Int?
+  altitude Int?
+  eventos  Evento[]
 }
 
 model Presenca {
-  id           Int       @id @unique
+  id           Int       @id @default(autoincrement())
   eventoId     Int?
   pessoaId     Int?
   dataPresenca DateTime?
