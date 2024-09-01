@@ -1,6 +1,6 @@
 services:
   postgres:
-    container_name: my_postgres
+    container_name: postgres
     image: postgres:13
     hostname: localhost
     environment:

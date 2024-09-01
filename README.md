@@ -1,3 +1,208 @@
+<h1 style="text-align:center;">UNICHAMADA-BACK-END</h1>
+
+## Sumário
+1. **[Sumário](#sumário)**
+2. **[Setup](#setup)**
+3. **[Contribuição](#contribuição)**
+    - **[Estrutura do Git Flow](#estrutura-do-git-flow)**
+      - **[Fluxo de Trabalho](#fluxo-de-trabalho)**
+        - **[Fluxo Básico de Trabalho com Git Flow](#4-fluxo-básico-de-trabalho-com-git-flow)**
+      - **[Guia de Commits](#guia-de-commits)**
+
+## Setup
+### Instalação de depedências
+
+```bash
+$ npm i
+```
+
+### Rodar migrations
+```bash
+# development
+$ npx prisma migrate dev
+```
+
+### Setup Banco de Dados
+#### Requisitos
+- Docker
+
+#### Rodar banco
+```bash
+# pull postgres image, build container, run database & frees the CLI
+$ docker-compose up -d
+```
+
+#### Desligar banco
+```bash
+# drop container
+$ docker-compose down
+```
+
+### Rodar a api
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
+### Testes
+
+```bash
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:cov
+```
+---
+
+## Contribuição
+Estratégia: Git Flow
+
+O Git Flow é um modelo de ramificação para o Git que facilita o gerenciamento de versões em projetos de desenvolvimento de software. Ele foi popularizado por Vincent Driessen em 2010 e se tornou uma abordagem amplamente adotada para organizar e gerenciar o trabalho em equipes de desenvolvimento.
+
+### Estrutura do Git Flow
+
+#### Branches Principais
+
+- **`main` (ou `master`)**: A branch principal que contém o código de produção. Sempre deve estar em um estado estável.
+- **`develop`**: A branch principal de desenvolvimento, onde o código é integrado e preparado para ser lançado.
+
+#### Branches de Suporte
+
+- **`feature/*`**: Usadas para desenvolver novas funcionalidades. Cada nova funcionalidade é desenvolvida em uma branch separada, derivada de `develop`.
+- **`release/*`**: Usadas para preparar uma nova versão de produção. Uma vez que todas as funcionalidades para uma nova versão estão completas, uma branch de release é criada a partir de `develop`.
+- **`hotfix/*`**: Usadas para corrigir rapidamente bugs em produção. Essas branches são criadas a partir de `main` e, uma vez corrigido o problema, o código é integrado tanto em `main` quanto em `develop`.
+- **`support/*`**: Embora menos comum, essas branches podem ser usadas para manutenção de versões antigas.
+
+### Fluxo de Trabalho
+
+1. **Desenvolvimento de Funcionalidades**:
+   - Crie uma nova branch `feature` a partir de `develop`.
+   - Desenvolva a funcionalidade na branch `feature`.
+   - Quando a funcionalidade estiver pronta, faça o merge da branch `feature` de volta para `develop`.
+
+2. **Preparação para Lançamento**:
+   - Quando estiver pronto para lançar uma nova versão, crie uma branch `release` a partir de `develop`.
+   - Realize os ajustes finais na branch `release`.
+   - Quando tudo estiver pronto, faça o merge da branch `release` em `main` e em `develop`.
+
+3. **Correção de Bugs em Produção**:
+   - Se um bug for encontrado em produção, crie uma branch `hotfix` a partir de `main`.
+   - Corrija o bug na branch `hotfix`.
+   - Faça o merge da branch `hotfix` em `main` e `develop`.
+
+
+#### 4. Fluxo Básico de Trabalho com Git Flow
+Aqui estão os comandos básicos para usar o Git Flow:
+- **Criar uma nova feature**:
+  ```bash
+  git flow feature start nome-da-feature
+  ```
+  Isso cria uma nova branch a partir de `develop`.
+- **Finalizar uma feature**:
+  ```bash
+  git flow feature finish nome-da-feature
+  ```
+  Isso faz o merge da feature na branch `develop` e a deleta.
+- **Criar uma release**:
+  ```bash
+  git flow release start numero-da-versao
+  ```
+  Isso cria uma branch de release a partir de `develop`.
+- **Finalizar uma release**:
+  ```bash
+  git flow release finish numero-da-versao
+  ```
+  Isso faz o merge da release em `main` e `develop`, e cria uma tag para a versão.
+- **Criar um hotfix**:
+  ```bash
+  git flow hotfix start nome-do-hotfix
+  ```
+  Isso cria uma branch de hotfix a partir de `main`.
+- **Finalizar um hotfix**:
+  ```bash
+  git flow hotfix finish nome-do-hotfix
+  ```
+  Isso faz o merge do hotfix em `main` e `develop`.
+
+  Claro! Aqui está uma versão mais simplificada da documentação para o seu repositório:
+
+---
+
+### Guia de Commits
+
+#### Estrutura dos Commits
+
+Os commits devem seguir este formato:
+
+```
+<tipo>[escopo opcional]: <descrição>
+
+[coração opcional]
+
+[rodapé(s) opcional(is)]
+```
+
+##### Tipos Comuns
+
+- **feat**: Nova funcionalidade
+- **fix**: Correção de bug
+- **docs**: Atualização de documentação
+- **style**: Alterações no estilo (espaçamento, formatação, etc.)
+- **refactor**: Alteração no código sem modificar funcionalidades
+- **perf**: Melhoria de desempenho
+- **test**: Testes
+- **build**: Mudanças no sistema de build
+- **ci**: Configurações de integração contínua
+- **chore**: Outras mudanças
+
+##### Exemplos
+
+1. **Adicionar nova funcionalidade**
+
+   ```
+   feat(auth): adicionar login com Google
+   ```
+
+2. **Corrigir um bug**
+
+   ```
+   fix(api): corrigir erro ao buscar dados
+   ```
+
+3. **Atualizar documentação**
+
+   ```
+   docs: atualizar guia de instalação
+   ```
+
+4. **Melhorar desempenho**
+
+   ```
+   perf: otimizar tempo de resposta
+   ```
+
+#### Dicas
+
+- Use uma frase curta e clara.
+- Comece com letra minúscula.
+- Não use ponto final na descrição.
+
+---
+
+
+<!-- 
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
@@ -18,69 +223,15 @@
   <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
     <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
   <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
+</p> -->
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+<!-- ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository. -->
 
-## Installation
-
-```bash
-$ npm install
-```
-
-## Run migrations
-```bash
-# development
-$ npx prisma migrate dev
-```
-
-## Database setup
-### Requirements
-- Docker
-
-### Run databse
-```bash
-# pull postgres image, build container, run database & frees the CLI
-$ docker-compose up -d
-```
-
-### Shut down databse
-```bash
-# drop the container
-$ docker-compose down
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
+<!-- ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
@@ -88,8 +239,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 - Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
 - Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Twitter - [@nestframework](https://twitter.com/nestframework) -->
 
-## License
+<!-- ## License
 
-Nest is [MIT licensed](LICENSE).
+Nest is [MIT licensed](LICENSE). -->
