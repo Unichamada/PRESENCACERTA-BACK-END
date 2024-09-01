@@ -3,8 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClassModule } from './modules/class/class.module';
 
+import { PeopleModule } from './modules/people/people.module';
+import { UserModule } from './modules/user/user.module';
+import MateriaModule from './modules/materia/materia.module';
+
 @Module({
-  imports: [ClassModule],
+  imports: [MateriaModule, UserModule, PeopleModule, ClassModule],
   controllers: [AppController],
   providers: [AppService],
 })
