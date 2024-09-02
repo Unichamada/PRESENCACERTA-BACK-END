@@ -27,16 +27,16 @@ export default class UsuarioController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOneById(+id);
+    return this.userService.findOneById(Number(id));
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUsuarioDto) {
-    return this.userService.update(+id, updateUserDto);
+    return this.userService.update(Number(id), updateUserDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+    return this.userService.remove(Number(id));
   }
 }
