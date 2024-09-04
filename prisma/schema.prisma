@@ -53,9 +53,9 @@ model Usuario {
 
 model Turma {
   id        Int                     @id @default(autoincrement())
-  nome      String?
-  unidadeId Int?
-  unidade   Unidade?                @relation(fields: [unidadeId], references: [id])
+  nome      String
+  unidadeId Int
+  unidade   Unidade                @relation(fields: [unidadeId], references: [id])
   pessoas   PessoaTurma[]
   materias  ProfessorMateriaTurma[]
   eventos   EventoTurma[]
@@ -88,7 +88,7 @@ model ProfessorMateriaTurma {
 
 model Evento {
   id         Int           @id @default(autoincrement())
-  nome       Int
+  nome       String
   tipoId     Int?
   dataInicio DateTime?
   dataFim    DateTime?
