@@ -7,6 +7,7 @@ import { PeopleModule } from "./modules/people/people.module";
 import { UserModule } from "./modules/user/user.module";
 import MateriaModule from "./modules/materia/materia.module";
 import EventoModule from "./modules/evento/evento.module";
+import PresencaModule from "./modules/presenca/presenca.module";
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import EventoModule from "./modules/evento/evento.module";
         PeopleModule,
         ClassModule,
         EventoModule,
+        PresencaModule,
     ],
     controllers: [AppController],
     providers: [AppService],

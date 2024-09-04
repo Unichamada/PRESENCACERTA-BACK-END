@@ -54,6 +54,28 @@ export default class PeopleRepository {
         });
     }
 
+    async findByCode(code: string): Promise<IPeople> {
+        const person = await this.prisma.pessoa.findFirst({
+            where: { codigo: code },
+            include: {
+                tipo: true,
+                unidade: true,
+                usuario: true,
+                turmas: true,
+                materias: true,
+                presencas: true,
+            },
+        });
+
+        if (!person) {
+            throw new NotFoundException(
+                `Aluno com a matrícula ${code} não encontrado`,
+            );
+        }
+
+        return person;
+    }
+
     async findOneById(id: number): Promise<IPeople> {
         const person = await this.prisma.pessoa.findUnique({
             where: { id },
