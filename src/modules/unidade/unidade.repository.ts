@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client';
 import { CreateUnidadeDto } from './dto/create-unidade.dto';
 import DatabaseService from 'src/database/database.service';
 import { UpdateUnidadeDto } from './dto/update-unidade.dto';
-import { IUnidade } from 'src/shared/interfaces/unidade.interface';
 
 export default class UnidadeRepository {
   private prisma: PrismaClient;
@@ -76,7 +75,9 @@ export default class UnidadeRepository {
         id,
       },
       data: {
-        ...updateUnidadeDto,
+        nome: updateUnidadeDto.nome,
+        cnpj: updateUnidadeDto.cnpj,
+        codigo: updateUnidadeDto.codigo,
       },
     });
   }
