@@ -1,46 +1,46 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { ClassService } from './class.service';
-import { CreateClassDto } from './dto/create-class.dto';
-import { UpdateClassDto } from './dto/update-class.dto';
-import { IClass } from 'src/shared/interfaces/class.interface';
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+} from "@nestjs/common";
+import { ClassService } from "./class.service";
+import { CreateClassDto } from "./dto/create-class.dto";
+import { UpdateClassDto } from "./dto/update-class.dto";
+import { IClass } from "src/shared/interfaces/class.interface";
 
-@Controller('classes')
+@Controller("classes")
 export class ClassController {
-  constructor(private readonly classService: ClassService) {}
+    constructor(private readonly classService: ClassService) {}
 
-  @Post()
-  create(@Body() createClassDto: CreateClassDto): Promise<IClass> {
-    return this.classService.create(createClassDto);
-  }
+    @Post()
+    create(@Body() createClassDto: CreateClassDto): Promise<IClass> {
+        return this.classService.create(createClassDto);
+    }
 
-  @Get()
-  findAll(): Promise<IClass[]> {
-    return this.classService.findAll();
-  }
+    @Get()
+    findAll(): Promise<IClass[]> {
+        return this.classService.findAll();
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<IClass> {
-    return this.classService.findOne(+id);
-  }
+    @Get(":id")
+    findOne(@Param("id") id: string): Promise<IClass> {
+        return this.classService.findOne(Number(id));
+    }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateClassDto: UpdateClassDto,
-  ): Promise<IClass> {
-    return this.classService.update(+id, updateClassDto);
-  }
+    @Patch(":id")
+    update(
+        @Param("id") id: string,
+        @Body() updateClassDto: UpdateClassDto,
+    ): Promise<IClass> {
+        return this.classService.update(Number(id), updateClassDto);
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string): Promise<IClass> {
-    return this.classService.remove(+id);
-  }
+    @Delete(":id")
+    remove(@Param("id") id: string): Promise<IClass> {
+        return this.classService.remove(Number(id));
+    }
 }
