@@ -34,8 +34,6 @@ export class PeopleService {
     }
 
     async import(data: IImportPeople[]) {
-        // por enquanto em hardcode apenas pra importar e utilizar o MVP, outra solução será implementada após a entrega do MVP
-
         let count = 0;
 
         for (const person of data) {
