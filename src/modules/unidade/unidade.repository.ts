@@ -14,7 +14,11 @@ export default class UnidadeRepository {
   async createUnidade(createUnidadeDto: CreateUnidadeDto) {
     try {
       return await this.prisma.unidade.create({
-        data: { ...createUnidadeDto },
+        data: {
+          nome: createUnidadeDto.nome,
+          cnpj: createUnidadeDto.cnpj,
+          codigo: createUnidadeDto.codigo,
+        },
       });
     } catch (error) {
       throw new Error(`erro na criação de unidade: ${error.message}`);
@@ -33,11 +37,9 @@ export default class UnidadeRepository {
     });
   }
 
-  async findUnidadeById(id: string) {
-    const convertId = Number(id);
-
+  async findUnidadeById(id: number) {
     return await this.prisma.unidade.findUnique({
-      where: { id: convertId },
+      where: { id },
     });
   }
 
@@ -68,12 +70,10 @@ export default class UnidadeRepository {
     }
   }
 
-  async updateUnidade(id: string, updateUnidadeDto: UpdateUnidadeDto) {
-    const convertId = Number(id);
-
+  async updateUnidade(id: number, updateUnidadeDto: UpdateUnidadeDto) {
     await this.prisma.unidade.update({
       where: {
-        id: convertId,
+        id,
       },
       data: {
         ...updateUnidadeDto,
@@ -81,11 +81,9 @@ export default class UnidadeRepository {
     });
   }
 
-  async deleteUnidadeById(id: string) {
-    const convertId = Number(id);
-
+  async deleteUnidadeById(id: number) {
     await this.prisma.unidade.delete({
-      where: { id: convertId },
+      where: { id },
     });
   }
 }

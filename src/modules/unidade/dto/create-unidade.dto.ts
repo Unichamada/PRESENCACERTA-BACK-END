@@ -5,7 +5,6 @@ export class CreateUnidadeDto implements IUnidade {
   id?: number;
 
   @IsString()
-  @IsNotEmpty({ message: 'CNPJ é um campo obrigatório!' })
   @Matches(/^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$|^\d{14}$/, {
     message: 'CNPJ deve estar no formato válido!',
   })
@@ -14,4 +13,6 @@ export class CreateUnidadeDto implements IUnidade {
   @IsString()
   @IsNotEmpty({ message: 'nome é um campo obrigatório!' })
   nome: string;
+
+  codigo: string;
 }

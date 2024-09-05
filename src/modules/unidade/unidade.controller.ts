@@ -23,7 +23,7 @@ export class UnidadeController {
 
   @Get(':id')
   async findOneUnidadeById(@Param('id') id: string) {
-    return await this.unidadeService.findOneUnidadeById(id);
+    return await this.unidadeService.findOneUnidadeById(Number(id));
   }
 
   @Get()
@@ -36,11 +36,11 @@ export class UnidadeController {
     @Param('id') id: string,
     @Body() updateUnidade: UpdateUnidadeDto,
   ) {
-    return await this.unidadeService.updateUnidade(id, updateUnidade);
+    return await this.unidadeService.updateUnidade(Number(id), updateUnidade);
   }
 
   @Delete(':id')
   async deleteUnidadeById(@Param('id') id: string) {
-    return await this.unidadeService.deleteUnidadeById(id);
+    return await this.unidadeService.deleteUnidadeById(Number(id));
   }
 }

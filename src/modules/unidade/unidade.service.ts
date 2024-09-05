@@ -2,7 +2,6 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUnidadeDto } from './dto/create-unidade.dto';
 import UnidadeRepository from './unidade.repository';
 import { UpdateUnidadeDto } from './dto/update-unidade.dto';
-import { IUnidade } from 'src/shared/interfaces/unidade.interface';
 
 @Injectable()
 export class UnidadeService {
@@ -25,7 +24,7 @@ export class UnidadeService {
     return await this.unidadeRepository.createUnidade(createUnidadeDto);
   }
 
-  async findOneUnidadeById(id: string) {
+  async findOneUnidadeById(id: number) {
     const unidade = await this.unidadeRepository.findUnidadeById(id);
 
     if (!unidade) {
@@ -39,7 +38,7 @@ export class UnidadeService {
     return await this.unidadeRepository.findAllUnidade(pageIndex);
   }
 
-  async updateUnidade(id: string, updateUnidadeDto: UpdateUnidadeDto) {
+  async updateUnidade(id: number, updateUnidadeDto: UpdateUnidadeDto) {
     const unidade = await this.unidadeRepository.findUnidadeById(id);
 
     if (!unidade) {
@@ -54,7 +53,7 @@ export class UnidadeService {
     }
   }
 
-  async deleteUnidadeById(id: string) {
+  async deleteUnidadeById(id: number) {
     const unidade = await this.unidadeRepository.findUnidadeById(id);
 
     if (!unidade) {
