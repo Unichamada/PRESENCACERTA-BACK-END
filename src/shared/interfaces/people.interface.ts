@@ -1,13 +1,13 @@
 export interface IPeople {
-  id?: number;
-  codigo: string;
-  nome: string;
-  cpf: string;
-  tipoId?: number;
-  unidadeId?: number;
-  usuarioId?: number;
+    id?: number;
+    codigo: string;
+    nome: string;
+    cpf?: string;
+    tipoId?: number;
+    unidadeId?: number;
+    usuarioId?: number;
 
-  /*
+    /*
   tipo?: IPeopleType;
   unidade?: IUnit;
   usuario?: IUser;
