@@ -25,5 +25,7 @@ export default class CreateEventoDto implements IEvento {
     @IsNotEmpty({ message: "a hora fim do evento é obrigatória" })
     horaFim: Date;
 
+    turmasId?: number[];
+
     localId?: number;
 }
