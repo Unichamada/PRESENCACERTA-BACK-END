@@ -16,8 +16,9 @@ datasource db {
 
 model Unidade {
   id      Int      @id @default(autoincrement())
-  cnpj    String
+  cnpj    String?
   nome    String
+  codigo  String
   pessoas Pessoa[]
   turmas  Turma[]
 }
