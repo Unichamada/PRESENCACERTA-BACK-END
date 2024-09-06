@@ -123,11 +123,10 @@ export default class EventoRepository {
             where: {
                 AND: {
                     eventoId: id,
-                    pessoaId: turmaId,
                     pessoa: {
                         turmas: {
                             some: {
-                                id: turmaId,
+                                turmaId: turmaId,
                             },
                         },
                     },
