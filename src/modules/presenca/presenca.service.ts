@@ -16,7 +16,7 @@ export default class PresencaService {
             createPresencaDto.matricula,
         );
 
-        createPresencaDto.setPessoaId(pessoa.id);
+        createPresencaDto.pessoaId = pessoa.id;
 
         return this.presencaRepository.create(createPresencaDto);
     }

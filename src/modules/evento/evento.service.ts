@@ -8,7 +8,13 @@ export default class EventoService {
     constructor(private readonly eventoRepository: EventoRepository) {}
 
     async create(createEventoDto: CreateEventoDto) {
-        return this.eventoRepository.create(createEventoDto);
+        const evento = await this.eventoRepository.create(createEventoDto);
+
+        for (const turmaId of createEventoDto.turmas) {
+            await this.eventoRepository.vinculaTurma(evento.id, turmaId);
+        }
+
+        return evento;
     }
 
     findAll() {
@@ -17,6 +23,10 @@ export default class EventoService {
 
     findOne(id: number) {
         return this.eventoRepository.findOneById(id);
+    }
+
+    findPresencasByTurma(id: number, turmaId: number) {
+        return this.eventoRepository.findPresencasByTurma(id, turmaId);
     }
 
     update(id: number, updateEventoDto: UpdateEventoDto) {
