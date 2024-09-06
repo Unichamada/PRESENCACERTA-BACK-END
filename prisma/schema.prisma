@@ -16,8 +16,9 @@ datasource db {
 
 model Unidade {
   id      Int      @id @default(autoincrement())
-  cnpj    String
+  cnpj    String?
   nome    String
+  codigo  String
   pessoas Pessoa[]
   turmas  Turma[]
 }
@@ -26,7 +27,7 @@ model Pessoa {
   id        Int                     @id @default(autoincrement())
   codigo    String
   nome      String
-  cpf       String
+  cpf       String?
   tipoId    Int?
   unidadeId Int?
   usuarioId Int?
@@ -53,9 +54,9 @@ model Usuario {
 
 model Turma {
   id        Int                     @id @default(autoincrement())
-  nome      String?
-  unidadeId Int?
-  unidade   Unidade?                @relation(fields: [unidadeId], references: [id])
+  nome      String
+  unidadeId Int
+  unidade   Unidade                @relation(fields: [unidadeId], references: [id])
   pessoas   PessoaTurma[]
   materias  ProfessorMateriaTurma[]
   eventos   EventoTurma[]
@@ -88,7 +89,7 @@ model ProfessorMateriaTurma {
 
 model Evento {
   id         Int           @id @default(autoincrement())
-  nome       Int
+  nome       String
   tipoId     Int?
   dataInicio DateTime?
   dataFim    DateTime?
