@@ -117,33 +117,4 @@ export default class EventoRepository {
 
         return createdEventoTurma;
     }
-
-    async findPresencasByTurma(id: number, turmaId: number) {
-        const presencas = await this.prisma.presenca.findMany({
-            where: {
-                AND: {
-                    eventoId: id,
-                    pessoa: {
-                        turmas: {
-                            some: {
-                                turmaId: turmaId,
-                            },
-                        },
-                    },
-                },
-            },
-            select: {
-                id: true,
-                pessoa: {
-                    select: {
-                        id: true,
-                        nome: true,
-                        codigo: true,
-                    },
-                },
-            },
-        });
-
-        return presencas;
-    }
 }
