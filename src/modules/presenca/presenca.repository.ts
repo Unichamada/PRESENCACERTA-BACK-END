@@ -6,9 +6,14 @@ import { IPresenca } from "src/shared/interfaces/presenca.interface";
 import UpdatePresencaDto from "./dto/update-presenca.dto";
 
 export default class PresencaRepository {
+    private readonly prisma: PrismaClient;
+
+    constructor() {
+        this.prisma = DatabaseService.getInstance();
+    }
+
     async create(presenca: CreatePresencaDto) {
-        const prisma: PrismaClient = DatabaseService.getInstance();
-        const createdPresenca = await prisma.presenca.create({
+        const createdPresenca = await this.prisma.presenca.create({
             data: {
                 eventoId: presenca.eventoId,
                 pessoaId: presenca.pessoaId,
@@ -21,52 +26,49 @@ export default class PresencaRepository {
     }
 
     async findAll() {
-        const prisma: PrismaClient = DatabaseService.getInstance();
-
-        const presencas: Partial<IPresenca>[] = await prisma.presenca.findMany({
-            select: {
-                id: true,
-                dataPresenca: true,
-                horaPresenca: true,
-                evento: {
-                    select: {
-                        nome: true,
+        const presencas: Partial<IPresenca>[] =
+            await this.prisma.presenca.findMany({
+                select: {
+                    id: true,
+                    dataPresenca: true,
+                    horaPresenca: true,
+                    evento: {
+                        select: {
+                            nome: true,
+                        },
+                    },
+                    pessoa: {
+                        select: {
+                            nome: true,
+                            codigo: true,
+                        },
                     },
                 },
-                pessoa: {
-                    select: {
-                        nome: true,
-                        codigo: true,
-                    },
-                },
-            },
-        });
+            });
 
         return presencas;
     }
 
     async findOneById(id: number) {
-        const prisma: PrismaClient = DatabaseService.getInstance();
-
-        const presenca: Partial<IPresenca> = await prisma.presenca.findUnique({
-            where: { id },
-            select: {
-                id: true,
-                dataPresenca: true,
-                horaPresenca: true,
-                evento: {
-                    select: {
-                        nome: true,
+        const presenca: Partial<IPresenca> =
+            await this.prisma.presenca.findUnique({
+                where: { id },
+                select: {
+                    dataPresenca: true,
+                    horaPresenca: true,
+                    evento: {
+                        select: {
+                            nome: true,
+                        },
+                    },
+                    pessoa: {
+                        select: {
+                            nome: true,
+                            codigo: true,
+                        },
                     },
                 },
-                pessoa: {
-                    select: {
-                        nome: true,
-                        codigo: true,
-                    },
-                },
-            },
-        });
+            });
 
         if (!presenca) {
             throw new NotFoundException("presenca nao existe");
@@ -76,18 +78,17 @@ export default class PresencaRepository {
     }
 
     async update(id: number, presenca: UpdatePresencaDto) {
-        const prisma: PrismaClient = DatabaseService.getInstance();
-
         try {
-            const updatedPresenca: IPresenca = await prisma.presenca.update({
-                where: { id },
-                data: {
-                    eventoId: presenca.eventoId,
-                    pessoaId: presenca.pessoaId,
-                    dataPresenca: presenca.dataPresenca,
-                    horaPresenca: presenca.horaPresenca,
-                },
-            });
+            const updatedPresenca: IPresenca =
+                await this.prisma.presenca.update({
+                    where: { id },
+                    data: {
+                        eventoId: presenca.eventoId,
+                        pessoaId: presenca.pessoaId,
+                        dataPresenca: presenca.dataPresenca,
+                        horaPresenca: presenca.horaPresenca,
+                    },
+                });
 
             return updatedPresenca;
         } catch (error) {
@@ -101,10 +102,8 @@ export default class PresencaRepository {
     }
 
     async remove(id: number) {
-        const prisma: PrismaClient = DatabaseService.getInstance();
-
         try {
-            const deletedPresenca = await prisma.presenca.delete({
+            const deletedPresenca = await this.prisma.presenca.delete({
                 where: { id },
             });
 
@@ -117,5 +116,53 @@ export default class PresencaRepository {
                 throw new NotFoundException("presenca nao existe");
             }
         }
+    }
+
+    async findPresencaByEventoIdAndPessoaId(
+        pessoaId: number,
+        eventoId: number,
+    ) {
+        const presenca: Partial<IPresenca> =
+            await this.prisma.presenca.findFirst({
+                where: {
+                    AND: {
+                        eventoId: eventoId,
+                        pessoaId: pessoaId,
+                    },
+                },
+            });
+
+        return presenca;
+    }
+
+    async findPresencasByTurma(id: number, turmaId: number) {
+        const presencas = await this.prisma.presenca.findMany({
+            where: {
+                AND: {
+                    eventoId: id,
+                    pessoa: {
+                        turmas: {
+                            some: {
+                                turmaId: turmaId,
+                            },
+                        },
+                    },
+                },
+            },
+            select: {
+                id: true,
+                dataPresenca: true,
+                horaPresenca: true,
+                pessoa: {
+                    select: {
+                        id: true,
+                        nome: true,
+                        codigo: true,
+                    },
+                },
+            },
+        });
+
+        return presencas;
     }
 }

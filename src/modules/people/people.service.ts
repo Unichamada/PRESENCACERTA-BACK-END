@@ -40,6 +40,15 @@ export class PeopleService {
             const unidadeCode = person.RA.substring(0, 2);
             const unidadeId = Number(unidadeCode);
 
+            const jaExiste = await this.peopleRepository.findByCode(person.RA);
+
+            if (jaExiste) {
+                console.info(
+                    `Pessoa ${person.Nome} - ${person.RA} já existe cadastrada`,
+                );
+                continue;
+            }
+
             const pessoa = await this.peopleRepository.create({
                 codigo: person.RA,
                 nome: person.Nome,

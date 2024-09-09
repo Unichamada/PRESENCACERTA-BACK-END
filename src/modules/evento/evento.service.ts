@@ -2,10 +2,14 @@ import { Injectable } from "@nestjs/common";
 import EventoRepository from "./evento.repository";
 import CreateEventoDto from "./dto/create-evento.dto";
 import UpdateEventoDto from "./dto/update-evento.dto";
+import PresencaRepository from "../presenca/presenca.repository";
 
 @Injectable()
 export default class EventoService {
-    constructor(private readonly eventoRepository: EventoRepository) {}
+    constructor(
+        private readonly eventoRepository: EventoRepository,
+        private readonly presencaRepository: PresencaRepository,
+    ) {}
 
     async create(createEventoDto: CreateEventoDto) {
         const evento = await this.eventoRepository.create(createEventoDto);
@@ -26,7 +30,7 @@ export default class EventoService {
     }
 
     findPresencasByTurma(id: number, turmaId: number) {
-        return this.eventoRepository.findPresencasByTurma(id, turmaId);
+        return this.presencaRepository.findPresencasByTurma(id, turmaId);
     }
 
     update(id: number, updateEventoDto: UpdateEventoDto) {
