@@ -1,8 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
 import PresencaRepository from "./presenca.repository";
 import CreatePresencaDto from "./dto/create-presenca.dto";
 import UpdatePresencaDto from "./dto/update-presenca.dto";
 import PeopleRepository from "../people/people.repository";
+import { log } from "console";
 
 @Injectable()
 export default class PresencaService {
@@ -17,6 +18,18 @@ export default class PresencaService {
         );
 
         createPresencaDto.pessoaId = pessoa.id;
+
+        const jaTemPresenca =
+            await this.presencaRepository.findPresencaByEventoIdAndPessoaId(
+                pessoa.id,
+                createPresencaDto.eventoId,
+            );
+
+        if (jaTemPresenca) {
+            throw new ConflictException(
+                "Você já possui presença registrada nesse evento",
+            );
+        }
 
         return this.presencaRepository.create(createPresencaDto);
     }

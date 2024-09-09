@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 import { IPresenca } from "src/shared/interfaces/presenca.interface";
 
 export default class CreatePresencaDto implements IPresenca {
