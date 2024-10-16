@@ -10,7 +10,9 @@ import {
 import { PeopleService } from "./people.service";
 import { CreatePeopleDto } from "./dto/create-people.dto";
 import { UpdatePeopleDto } from "./dto/update-people.dto";
+import { IsPublic } from "src/shared/decorators/is_public.decorator";
 
+@IsPublic()
 @Controller("people")
 export class PeopleController {
     constructor(private readonly peopleService: PeopleService) {}
