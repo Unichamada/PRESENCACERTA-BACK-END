@@ -31,7 +31,9 @@
     "class-validator": "^0.14.1",
     "multer": "^1.4.5-lts.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "UNICHAMADA-BACK-END": "file:",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
