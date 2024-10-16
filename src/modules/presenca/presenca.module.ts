@@ -8,5 +8,6 @@ import { PeopleModule } from "../people/people.module";
     controllers: [PresencaController],
     providers: [PresencaService, PresencaRepository],
     imports: [PeopleModule],
+    exports: [PresencaRepository],
 })
 export default class PresencaModule {}

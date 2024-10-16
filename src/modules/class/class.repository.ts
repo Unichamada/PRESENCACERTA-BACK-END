@@ -106,4 +106,24 @@ export default class ClassRepository {
             throw error;
         }
     }
+
+    async findOrCreate(createClassDto: CreateClassDto): Promise<IClass> {
+        const classData = await this.prisma.turma.findFirst({
+            where: {
+                nome: createClassDto.nome,
+                AND: { unidadeId: createClassDto.unidadeId },
+            },
+        });
+
+        if (classData) {
+            return classData;
+        }
+
+        return this.prisma.turma.create({
+            data: {
+                nome: createClassDto.nome,
+                unidadeId: createClassDto.unidadeId,
+            },
+        });
+    }
 }

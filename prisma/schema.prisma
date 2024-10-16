@@ -27,7 +27,7 @@ model Pessoa {
   id        Int                     @id @default(autoincrement())
   codigo    String
   nome      String
-  cpf       String
+  cpf       String?
   tipoId    Int?
   unidadeId Int?
   usuarioId Int?

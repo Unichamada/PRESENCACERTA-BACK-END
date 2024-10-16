@@ -146,4 +146,15 @@ export default class PeopleRepository {
             throw error;
         }
     }
+
+    async vinculaTurma(id: number, turmaId: number) {
+        const createdPessoaTurma = await this.prisma.pessoaTurma.create({
+            data: {
+                pessoaId: id,
+                turmaId: turmaId,
+            },
+        });
+
+        return createdPessoaTurma;
+    }
 }

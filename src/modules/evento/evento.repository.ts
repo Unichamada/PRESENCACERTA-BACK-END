@@ -6,9 +6,14 @@ import { IEvento } from "src/shared/interfaces/evento.interface";
 import UpdateEventoDto from "./dto/update-evento.dto";
 
 export default class EventoRepository {
+    private prisma: PrismaClient;
+
+    constructor() {
+        this.prisma = DatabaseService.getInstance();
+    }
+
     async create(evento: CreateEventoDto) {
-        const prisma: PrismaClient = DatabaseService.getInstance();
-        const createdEvento = await prisma.evento.create({
+        const createdEvento = await this.prisma.evento.create({
             data: {
                 nome: evento.nome,
                 dataInicio: evento.dataInicio,
@@ -22,12 +27,12 @@ export default class EventoRepository {
     }
 
     async findAll() {
-        const prisma: PrismaClient = DatabaseService.getInstance();
-
-        const eventos: Partial<IEvento>[] = await prisma.evento.findMany({
+        const eventos: Partial<IEvento>[] = await this.prisma.evento.findMany({
             select: {
                 id: true,
                 nome: true,
+                dataInicio: true,
+                horaInicio: true,
             },
         });
 
@@ -35,13 +40,22 @@ export default class EventoRepository {
     }
 
     async findOneById(id: number) {
-        const prisma: PrismaClient = DatabaseService.getInstance();
-
-        const evento: Partial<IEvento> = await prisma.evento.findUnique({
+        const evento: Partial<IEvento> = await this.prisma.evento.findUnique({
             where: { id },
             select: {
                 id: true,
                 nome: true,
+                turmas: {
+                    select: {
+                        id: true,
+                        turma: {
+                            select: {
+                                id: true,
+                                nome: true,
+                            },
+                        },
+                    },
+                },
             },
         });
 
@@ -53,10 +67,8 @@ export default class EventoRepository {
     }
 
     async update(id: number, evento: UpdateEventoDto) {
-        const prisma: PrismaClient = DatabaseService.getInstance();
-
         try {
-            const updatedEvento: IEvento = await prisma.evento.update({
+            const updatedEvento: IEvento = await this.prisma.evento.update({
                 where: { id },
                 data: {
                     nome: evento.nome,
@@ -79,10 +91,8 @@ export default class EventoRepository {
     }
 
     async remove(id: number) {
-        const prisma: PrismaClient = DatabaseService.getInstance();
-
         try {
-            const deletedEvento = await prisma.evento.delete({
+            const deletedEvento = await this.prisma.evento.delete({
                 where: { id },
             });
 
@@ -95,5 +105,16 @@ export default class EventoRepository {
                 throw new NotFoundException("evento nao existe");
             }
         }
+    }
+
+    async vinculaTurma(id: number, turmaId: number) {
+        const createdEventoTurma = await this.prisma.eventoTurma.create({
+            data: {
+                eventoId: id,
+                turmaId: turmaId,
+            },
+        });
+
+        return createdEventoTurma;
     }
 }

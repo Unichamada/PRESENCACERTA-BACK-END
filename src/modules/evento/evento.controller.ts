@@ -12,33 +12,43 @@ import CreateEventoDto from "./dto/create-evento.dto";
 import UpdateEventoDto from "./dto/update-evento.dto";
 import { IsPublic } from "src/shared/decorators/is_public.decorator";
 
-@IsPublic()
 @Controller("subject")
 export default class EventoController {
-    constructor(private readonly subjectService: EventoService) {}
+    constructor(private readonly eventoService: EventoService) {}
 
     @Post()
     create(@Body() createEventoDto: CreateEventoDto) {
-        return this.subjectService.create(createEventoDto);
+        return this.eventoService.create(createEventoDto);
     }
 
     @Get()
     findAll() {
-        return this.subjectService.findAll();
+        return this.eventoService.findAll();
     }
 
     @Get(":id")
     findOne(@Param("id") id: string) {
-        return this.subjectService.findOne(Number(id));
+        return this.eventoService.findOne(Number(id));
     }
 
     @Patch(":id")
     update(@Param("id") id: string, @Body() updateEventoDto: UpdateEventoDto) {
-        return this.subjectService.update(Number(id), updateEventoDto);
+        return this.eventoService.update(Number(id), updateEventoDto);
     }
 
     @Delete(":id")
     remove(@Param("id") id: string) {
-        return this.subjectService.remove(Number(id));
+        return this.eventoService.remove(Number(id));
+    }
+
+    @Get(":id/turma/:turmaId/presencas")
+    findPresencasByTurma(
+        @Param("id") id: string,
+        @Param("turmaId") turmaId: string,
+    ) {
+        return this.eventoService.findPresencasByTurma(
+            Number(id),
+            Number(turmaId),
+        );
     }
 }
