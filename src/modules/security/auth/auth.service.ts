@@ -16,7 +16,7 @@ export class AuthService {
             authUserDto.email,
         );
 
-        const messageException = 'Não foi possível realizar login!'
+        const messageException = "Não foi possível realizar login"
 
         if(!user) {
             throw new UnauthorizedException(messageException)
