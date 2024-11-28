@@ -11,9 +11,7 @@ import {
 import { CreateUnidadeDto } from './dto/create-unidade.dto';
 import { UnidadeService } from './unidade.service';
 import { UpdateUnidadeDto } from './dto/update-unidade.dto';
-import { IsPublic } from 'src/shared/decorators/is_public.decorator';
 
-@IsPublic()
 @Controller('unidade')
 export class UnidadeController {
   constructor(private readonly unidadeService: UnidadeService) {}
