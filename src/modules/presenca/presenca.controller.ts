@@ -10,7 +10,9 @@ import {
 import PresencaService from "./presenca.service";
 import CreatePresencaDto from "./dto/create-presenca.dto";
 import UpdatePresencaDto from "./dto/update-presenca.dto";
+import { IsPublic } from "src/shared/decorators/is_public.decorator";
 
+@IsPublic()
 @Controller("presenca")
 export default class PresencaController {
     constructor(private readonly presencaService: PresencaService) {}

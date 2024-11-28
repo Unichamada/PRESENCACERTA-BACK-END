@@ -10,8 +10,10 @@ import {
 import EventoService from "./evento.service";
 import CreateEventoDto from "./dto/create-evento.dto";
 import UpdateEventoDto from "./dto/update-evento.dto";
+import { IsPublic } from "src/shared/decorators/is_public.decorator";
 
-@Controller("evento")
+@IsPublic()
+@Controller("subject")
 export default class EventoController {
     constructor(private readonly eventoService: EventoService) {}
 
