@@ -6,14 +6,11 @@ import {
     Param,
     Patch,
     Post,
-    UseGuards,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { CreateUserDTO } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { IsPublic } from "src/shared/decorators/is_public.decorator";
 
-@IsPublic()
 @Controller("user")
 export class UserController {
     constructor(private readonly userService: UserService) {}

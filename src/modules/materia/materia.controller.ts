@@ -10,9 +10,7 @@ import {
 import MateriaService from './materia.service';
 import CreateMateriaDto from './dto/create-materia.dto';
 import UpdateMateriaDto from './dto/update-materia.dto';
-import { IsPublic } from 'src/shared/decorators/is_public.decorator';
 
-@IsPublic()
 @Controller('subject')
 export default class MateriaController {
   constructor(private readonly subjectService: MateriaService) {}

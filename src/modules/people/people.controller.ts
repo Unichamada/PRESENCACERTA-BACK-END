@@ -15,9 +15,7 @@ import { UpdatePeopleDto } from "./dto/update-people.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import * as XLSX from "xlsx";
 import { IImportPeople } from "./interfaces/import.people.interface";
-import { IsPublic } from "src/shared/decorators/is_public.decorator";
 
-@IsPublic()
 @Controller("people")
 export class PeopleController {
     constructor(private readonly peopleService: PeopleService) {}

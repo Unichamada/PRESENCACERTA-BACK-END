@@ -11,9 +11,7 @@ import { ClassService } from "./class.service";
 import { CreateClassDto } from "./dto/create-class.dto";
 import { UpdateClassDto } from "./dto/update-class.dto";
 import { IClass } from "src/shared/interfaces/class.interface";
-import { IsPublic } from "src/shared/decorators/is_public.decorator";
 
-@IsPublic()
 @Controller("classes")
 export class ClassController {
     constructor(private readonly classService: ClassService) {}
